@@ -1,9 +1,9 @@
 import torch
 
 # [ pSp | simswap | styleclip | all]
-architecture_type = 'pSp'
+architecture_type = 'simswap'
 # [ffhq_encode | ffhq_stylemix | ffhq_fs | ffhq_all]
-dataset_type = 'ffhq_encode'
+dataset_type = 'ffhq_fs'
 
 n_epochs = 1000
 max_steps = 10000

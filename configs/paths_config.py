@@ -25,6 +25,7 @@ dataset_paths = {
     'self_recon_test': '',
     'style_mix_src': '',
     'style_mix_tgt': '',
+    # indicate the target and source image paths for face swap
     'fs_train_src': '',
     'fs_train_tgt': '',
     'fs_val_src': '',
