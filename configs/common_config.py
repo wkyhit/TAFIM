@@ -5,7 +5,7 @@ architecture_type = 'simswap'
 # [ffhq_encode | ffhq_stylemix | ffhq_fs | ffhq_all]
 dataset_type = 'ffhq_fs'
 
-n_epochs = 1000
+n_epochs = 100
 max_steps = 10000
 
 gpu_ids = [0]

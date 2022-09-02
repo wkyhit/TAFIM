@@ -16,7 +16,8 @@ STYLECLIP_BASE_DIR = os.path.join(BASE_DIR, 'model_checkpoints', 'StyleClip')
 
 # Checkpoint paths for results
 MANIPULATION_TESTS_BASE_DIR = os.path.join(BASE_DIR, 'tests')
-ATTACK_BASE_DIR = os.path.join(BASE_DIR, 'attack_results')
+CHECK_POINT_DIR = '/content/drive/MyDrive/adversial_attack/TAFIM_attack'
+ATTACK_BASE_DIR = os.path.join(CHECK_POINT_DIR, 'attack_results')
 PSP_ATTACK_BASE_DIR = os.path.join(ATTACK_BASE_DIR, 'pSp')
 SIMSWAP_ATTACK_BASE_DIR = os.path.join(ATTACK_BASE_DIR, 'SimSwap')
 STYLECLIP_ATTACK_BASE_DIR = os.path.join(ATTACK_BASE_DIR, 'StyleClip')
@@ -31,10 +32,10 @@ dataset_paths = {
     'style_mix_tgt': '',
     # indicate the target and source image paths for face swap
     # target和source与原文SimSwap的定义相反（注意指定路径需要相反）
-    'fs_train_src': '',
-    'fs_train_tgt': '',
-    'fs_val_src': '',
-    'fs_val_tgt': '',
-    'fs_test_src': '/content/TAFIM/dataset/target_imgs_1000',
-    'fs_test_tgt': '/content/TAFIM/dataset/source_imgs_1000',
+    'fs_train_src': '/content/TAFIM/dataset/train_target_2000',
+    'fs_train_tgt': '/content/TAFIM/dataset/train_source_2000',
+    'fs_val_src': '/content/TAFIM/dataset/val_target_100',
+    'fs_val_tgt': '/content/TAFIM/dataset/val_source_100',
+    'fs_test_src': '/content/TAFIM/dataset/val_target_100',
+    'fs_test_tgt': '/content/TAFIM/dataset/val_source_100',
 }

@@ -24,7 +24,7 @@ from configs.transforms_config import img_transform_simswap
 if __name__ == '__main__':
 
     config_parser = ArgumentParser()
-    config_parser.add_argument('--train_imgs', default=5000, type=int, help='Number of Training Images')
+    config_parser.add_argument('--train_imgs', default=2000, type=int, help='Number of Training Images')
     config_parser.add_argument('--perturb_wt', default=10, type=int, help='Perturbation Weight')
     config_parser.add_argument('--batch_size', default=1, type=int, help='Perturbation Weight')
     config_parser.add_argument('--loss_type', default='l2', type=str, help='Loss Type')
