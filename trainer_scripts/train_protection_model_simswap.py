@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/content/TAFIM")
 import os
 import torch
 import pprint
@@ -71,10 +73,11 @@ if __name__ == '__main__':
         train_current_loss = {'full': 0., 'recon': 0., 'perturb': 0.}
         for i, data in enumerate(tqdm(train_loader, desc='')):  # inner loop within one epoch
 
-            simswap_net.real_A1 = data['A'].to(device).clone()
-            simswap_net.real_A2 = data['B'].to(device).clone()
+            simswap_net.real_A1 = data['A'].to(device).clone() #target image
+            simswap_net.real_A2 = data['B'].to(device).clone() #source image
 
             b_size = simswap_net.real_A1.shape[0]
+            # 生成要攻击生成的目标图像（255,0,0）为dark red
             simswap_net.y = create_target_img(batch_size=b_size, size=resize_size, img_transform=img_transform_simswap, color=(255, 0, 0)).to(device)  # Ideal output to produce
 
             # Compute the output for the original image

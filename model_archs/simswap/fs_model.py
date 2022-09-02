@@ -23,8 +23,8 @@ class fsModel(torch.nn.Module):
 
         netArc_checkpoint = torch.load(simswap_arcface_ckpt)
         self.netArc = netArc_checkpoint['model'].module
-        # self.netArc = self.netArc.to(device)
-        # self.netArc.eval()
+        self.netArc = self.netArc.to("cuda")
+        self.netArc.eval()
 
         self.perturb_wt = perturb_wt
 
@@ -36,10 +36,14 @@ class fsModel(torch.nn.Module):
 
     def swap_face(self, img_att, img_id):
         # create latent id
-        img_id_downsample = F.interpolate(img_id, scale_factor=0.5)
+        
+        # img_id_downsample = F.interpolate(img_id, scale_factor=0.5)
+        img_id_downsample = F.interpolate(img_id, size=(112,112))#!!!与SimSwap原文保持一致
+
         latent_id = self.netArc(img_id_downsample)
         latent_id = latent_id.detach()
-        latent_id = latent_id / torch.linalg.norm(latent_id, axis=1, keepdims=True)
+        latent_id = F.normalize(latent_id, p=2, dim=1)#!!!与SimSwap原文保持一致
+        # latent_id = latent_id / torch.linalg.norm(latent_id, axis=1, keepdims=True)
         img_fake = self.netG.forward(img_att, latent_id)
         return img_fake
 
