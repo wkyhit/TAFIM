@@ -34,6 +34,6 @@ dataset_paths = {
     'fs_train_tgt': '',
     'fs_val_src': '',
     'fs_val_tgt': '',
-    'fs_test_src': '',
-    'fs_test_tgt': '',
+    'fs_test_src': '/content/TAFIM/dataset/target_imgs_1000',
+    'fs_test_tgt': '/content/TAFIM/dataset/source_imgs_1000',
 }
