@@ -7,7 +7,8 @@ TF_BASE_DIR = os.path.join(BASE_DIR, 'tf_logs')
 # Pretrained Checkpoints for manipulation models
 pSp_ffhq_encode_pth = os.path.join(BASE_DIR, 'model_checkpoints', 'pSp', 'psp_ffhq_encode.pt')
 # simswap_ckpt = os.path.join(BASE_DIR, 'model_checkpoints', 'SimSwap', 'G_simswap.pth')
-simswap_ckpt = os.path.join(BASE_DIR, 'model_checkpoints', 'SimSwap','512', '550000_net_G.pth')
+simswap_ckpt = os.path.join(BASE_DIR, 'model_checkpoints', 'SimSwap','people', 'latest_net_G.pth')
+# simswap_ckpt = os.path.join(BASE_DIR, 'model_checkpoints', 'SimSwap','512', '550000_net_G.pth')
 
 # simswap_arcface_ckpt = os.path.join(BASE_DIR, 'model_checkpoints', 'SimSwap', 'arcface.pth')
 simswap_arcface_ckpt = os.path.join(BASE_DIR, 'model_checkpoints', 'SimSwap', 'arcface_checkpoint.tar')
