@@ -26,6 +26,7 @@ dataset_paths = {
     'style_mix_src': '',
     'style_mix_tgt': '',
     # indicate the target and source image paths for face swap
+    # target和source与原文SimSwap的定义相反（注意指定路径需要相反）
     'fs_train_src': '',
     'fs_train_tgt': '',
     'fs_val_src': '',

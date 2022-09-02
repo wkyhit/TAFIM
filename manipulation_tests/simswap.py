@@ -24,7 +24,7 @@ if __name__ == '__main__':
     opts_dict = vars(opts)
     pprint.pprint(opts_dict)
 
-    dataset_args = data_config.DATASETS[dataset_type]
+    dataset_args = data_config.DATASETS[dataset_type] # get the dataset path
     transforms_dict = dataset_args['transforms']().get_transforms()
 
     test_dataset = ImagesDataset(source_root=dataset_args['test_source_root'], target_root=dataset_args['test_target_root'], source_transform=transforms_dict['transform_test'], target_transform=transforms_dict['transform_test'], num_imgs=val_imgs)
@@ -36,8 +36,8 @@ if __name__ == '__main__':
     for idx, data in enumerate(tqdm(test_loader, desc='')):  # inner loop within one epoch
         with torch.no_grad():
 
-            simswap_net.real_A1 = data['A'].to(device).clone()
-            simswap_net.real_A2 = data['B'].to(device).clone()
+            simswap_net.real_A1 = data['A'].to(device).clone() #target image
+            simswap_net.real_A2 = data['B'].to(device).clone() #source image
 
             # Get the output
             output = simswap_net.swap_face(simswap_net.real_A1, simswap_net.real_A2)
