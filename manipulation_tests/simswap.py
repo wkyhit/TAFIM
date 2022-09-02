@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/content/TAFIM")
 import os
 import pprint
 import torch

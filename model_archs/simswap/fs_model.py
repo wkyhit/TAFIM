@@ -17,9 +17,15 @@ class fsModel(torch.nn.Module):
         self.netG = Generator_Adain_Upsample(input_nc=3, output_nc=3, latent_size=512, n_blocks=9, deep=False)
         self.netG.load_state_dict(torch.load(simswap_ckpt))
         # Id network
+        # netArc_checkpoint = torch.load(simswap_arcface_ckpt)
+        # self.netArc = ResNet(IRBlock, [3, 4, 23, 3])
+        # self.netArc.load_state_dict(netArc_checkpoint)
+
         netArc_checkpoint = torch.load(simswap_arcface_ckpt)
-        self.netArc = ResNet(IRBlock, [3, 4, 23, 3])
-        self.netArc.load_state_dict(netArc_checkpoint)
+        self.netArc = netArc_checkpoint['model'].module
+        # self.netArc = self.netArc.to(device)
+        # self.netArc.eval()
+
         self.perturb_wt = perturb_wt
 
         # Loss Function
