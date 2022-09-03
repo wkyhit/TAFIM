@@ -19,7 +19,7 @@ label_nc = 0
 # of output image channels: 3 for RGB and 1 for grayscale
 output_nc = 3
 
-val_imgs = 1000
-test_imgs = 1000
+val_imgs = 100
+test_imgs = 100
 
 resize_size = 256
