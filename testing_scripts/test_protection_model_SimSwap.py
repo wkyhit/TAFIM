@@ -13,7 +13,7 @@ from utils.dataset import ImagesDataset
 from model_archs.simswap.fs_model import fsModel
 from utils.image_utils import create_target_img, tensor2im
 from configs.transforms_config import adv_img_transform
-from configs.paths_config import SIMSWAP_ATTACK_BASE_DIR, ATTACK_BASE_DIR
+from configs.paths_config import SIMSWAP_ATTACK_BASE_DIR, ATTACK_BASE_DIR,MANIPULATION_TESTS_BASE_DIR
 from configs.common_config import device, dataset_type, val_imgs, resize_size
 from model_archs.protection_net.networks import define_G as GenPix2Pix
 from configs.attack_config import no_dropout, init_type, init_gain, ngf, net_noise, norm
@@ -52,35 +52,40 @@ if __name__ == '__main__':
     protection_model.eval()
     global_adv_noise = checkpoint['global_noise'].to(device)
 
-for idx, data in enumerate(tqdm(test_loader, desc='')):  # inner loop within one epoch
-        with torch.no_grad():
+    os.makedirs(os.path.join(MANIPULATION_TESTS_BASE_DIR, 'visuals_simswap'), exist_ok=True)
 
-            simswap_net.real_A1 = data['A'].to(device).clone().detach() #target image
-            simswap_net.real_A2 = data['B'].to(device).clone().detach() #source image
-            b_size = simswap_net.real_A1.shape[0]
-            # Ideal output to produce
-            simswap_net.y = create_target_img(batch_size=b_size, size=resize_size, img_transform=img_transform_simswap, color=(255, 0, 0)).to(device)
 
-            # Get the old output
-            old_out = simswap_net.swap_face(simswap_net.real_A1, simswap_net.real_A2)
+    for idx, data in enumerate(tqdm(test_loader, desc='')):  # inner loop within one epoch
+            with torch.no_grad():
 
-            adv_input = torch.cat((simswap_net.real_A1, global_adv_noise.unsqueeze(0)), 1)
-            adv_noise = protection_model(adv_input)
-            simswap_net.adv_A1 = torch.clamp(simswap_net.real_A1 + adv_noise, 0, 1)  # For Visualization
+                simswap_net.real_A1 = data['A'].to(device).clone().detach() #target image
+                simswap_net.real_A2 = data['B'].to(device).clone().detach() #source image
+                b_size = simswap_net.real_A1.shape[0]
+                # Ideal output to produce
+                simswap_net.y = create_target_img(batch_size=b_size, size=resize_size, img_transform=img_transform_simswap, color=(255, 0, 0)).to(device)
 
-            #  Redo Forward pass on adversarial image through the model
-            # fake_B为攻击后生成的图片
-            simswap_net.fake_B = simswap_net.swap_face(simswap_net.adv_A1, simswap_net.real_A2)
+                # Get the old output
+                old_out = simswap_net.swap_face(simswap_net.real_A1, simswap_net.real_A2)
 
-            # calculate loss
-            # simswap_net.closure(model_adv_noise=adv_noise, global_adv_noise=global_adv_noise)
+                # adv_input = torch.cat((simswap_net.real_A1, global_adv_noise.unsqueeze(0)), 1)
+                adv_input = torch.cat((simswap_net.real_A1, global_adv_noise), 1) #two tensors need to be the same size
 
-            # pSp_net.fake_B = pSp_net(pSp_net.adv_A)
-            visuals = simswap_net.get_current_visuals()  # get image results
+                adv_noise = protection_model(adv_input)
+                simswap_net.adv_A1 = torch.clamp(simswap_net.real_A1 + adv_noise, 0, 1)  # For Visualization
 
-            img_keys = list(visuals.keys())
-            # 分别为：ori_target, adv_target, noise, adv_output, ori_output, ori_source
-            images = torch.cat((simswap_net.real_A1, simswap_net.adv_A, simswap_net.adv_A - simswap_net.real_A1, visuals['fake_B'], old_out, simswap_net.real_A2), -1)
-            horizontal_grid = tensor2im(vutils.make_grid(images))
-            horizontal_grid = cv2.cvtColor(horizontal_grid, cv2.COLOR_BGR2RGB)
-            cv2.imwrite(os.path.join(ATTACK_BASE_DIR, 'visuals', f"{idx}.png"), horizontal_grid)
+                #  Redo Forward pass on adversarial image through the model
+                # fake_B为攻击后生成的图片
+                simswap_net.fake_B = simswap_net.swap_face(simswap_net.adv_A1, simswap_net.real_A2)
+
+                # calculate loss
+                # simswap_net.closure(model_adv_noise=adv_noise, global_adv_noise=global_adv_noise)
+
+                # pSp_net.fake_B = pSp_net(pSp_net.adv_A)
+                visuals = simswap_net.get_current_visuals()  # get image results
+
+                img_keys = list(visuals.keys())
+                # 分别为：ori_target, adv_target, noise, adv_output, ori_output, ori_source
+                images = torch.cat((simswap_net.real_A1, simswap_net.adv_A1, simswap_net.adv_A1 - simswap_net.real_A1, visuals['fake_B'], old_out, simswap_net.real_A2), -1)
+                horizontal_grid = tensor2im(vutils.make_grid(images))
+                horizontal_grid = cv2.cvtColor(horizontal_grid, cv2.COLOR_BGR2RGB)
+                cv2.imwrite(os.path.join(MANIPULATION_TESTS_BASE_DIR, 'visuals', f"{idx}.png"), horizontal_grid)
