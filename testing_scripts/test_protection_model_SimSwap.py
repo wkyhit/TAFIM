@@ -21,7 +21,7 @@ from configs.transforms_config import img_transform_simswap
 
 if __name__ == '__main__':
     config_parser = ArgumentParser()
-    config_parser.add_argument('-p', '--SimSwap_protection_path', default='unet_64/SimSwap_protection_unet_64_10perturb_latest.pth', type=str, help='Path to SimSwap pretrained model')
+    config_parser.add_argument('-p', '--SimSwap_protection_path', default='unet_64/simswap_protection_unet_64_10perturb_latest.pth', type=str, help='Path to SimSwap pretrained model')
     config_parser.add_argument('-b', '--batch_size', default=1, type=int, help='Batch Size')
     config_parser.add_argument('-l', '--loss_type', default='l2', type=str, help='Loss Type')
     opts = config_parser.parse_args()
