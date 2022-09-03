@@ -36,7 +36,7 @@ if __name__ == '__main__':
     dataset_args = data_config.DATASETS[dataset_type]
     transforms_dict = dataset_args['transforms']().get_transforms()
 
-    test_dataset = ImagesDataset(source_root=dataset_args['test_source_root'], target_root=dataset_args['test_target_root'], source_transform=transforms_dict['transform_inference'], target_transform=transforms_dict['transform_inference'], num_imgs=val_imgs)
+    test_dataset = ImagesDataset(source_root=dataset_args['test_source_root'], target_root=dataset_args['test_target_root'], source_transform=transforms_dict['transform_test'], target_transform=transforms_dict['transform_test'], num_imgs=val_imgs)
     test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, num_workers=4, shuffle=False)
 
     checkpoint = torch.load(os.path.join(SIMSWAP_ATTACK_BASE_DIR, SimSwap_protection_path))
