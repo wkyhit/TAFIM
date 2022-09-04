@@ -52,7 +52,7 @@ if __name__ == '__main__':
     protection_model.eval()
     global_adv_noise = checkpoint['global_noise'].to(device)
 
-    os.makedirs(os.path.join(MANIPULATION_TESTS_BASE_DIR, 'visuals_simswap'), exist_ok=True)
+    os.makedirs(os.path.join(MANIPULATION_TESTS_BASE_DIR, 'visuals'), exist_ok=True)
 
 
     for idx, data in enumerate(tqdm(test_loader, desc='')):  # inner loop within one epoch

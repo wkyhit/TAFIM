@@ -1,7 +1,9 @@
 import os
 
 # Directories
-BASE_DIR = './'
+# BASE_DIR = './'
+BASE_DIR = '/content/TAFIM'
+
 TF_BASE_DIR = os.path.join(BASE_DIR, 'tf_logs')
 
 # Pretrained Checkpoints for manipulation models
