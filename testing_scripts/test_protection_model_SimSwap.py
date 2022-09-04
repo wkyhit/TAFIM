@@ -86,6 +86,6 @@ if __name__ == '__main__':
                 img_keys = list(visuals.keys())
                 # 分别为：ori_target, adv_target, noise, adv_output, ori_output, ori_source
                 images = torch.cat((simswap_net.real_A1, simswap_net.adv_A1, simswap_net.adv_A1 - simswap_net.real_A1, visuals['fake_B'], old_out, simswap_net.real_A2), -1)
-                horizontal_grid = tensor2im(vutils.make_grid(images))
+                horizontal_grid = tensor2im(vutils.make_grid(images),fs=True)
                 horizontal_grid = cv2.cvtColor(horizontal_grid, cv2.COLOR_BGR2RGB)
                 cv2.imwrite(os.path.join(MANIPULATION_TESTS_BASE_DIR, 'visuals', f"{idx}.png"), horizontal_grid)
